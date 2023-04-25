@@ -6,4 +6,7 @@ export class CreateOptionDto{
 
     @IsNotEmpty({message:'isCorrect required!'})
     isCorrect: boolean;
+
+    @IsNotEmpty({message: 'questionId required'})
+    questionId: number;
 }
