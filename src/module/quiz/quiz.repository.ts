@@ -13,18 +13,27 @@ export class QuizRepository extends Repository<Quiz> {
         quiz.description = dto.description;
         return await this.save(quiz);
     }
-    getAllQuiz = async (): Promise<Quiz[] | Error> => {
-        const response = await this.find({relations:['questions']});
+    getAllQuiz = async (): Promise<[Quiz[], number] | Error> => {
+        // const response = await this.find({relations:['questions']});
+        const response = await this.createQueryBuilder('quiz')
+            .leftJoinAndSelect('quiz.questions', 'question')
+            .leftJoinAndSelect('question.options', 'option')
+            .getManyAndCount();
         return response;
     }
 
-    findOneQuiz = async (id: number): Promise<Quiz> => {
-        const response = Quiz.findOne({
-            where: {
-                id: id
-            },
-            relations:['questions'],
-        });
+    findOneQuiz = async (id: number) => {
+        // const response = Quiz.findOne({
+        //     where: {
+        //         id: id
+        //     },
+        //     relations:['questions'],
+        // });
+        const response = await this.createQueryBuilder('quiz')
+            .leftJoinAndSelect('quiz.questions', 'question')
+            .leftJoinAndSelect('question.options', 'option')
+            .where('quiz.id = :id', { id: id })
+            .getOne();
         return response;
     }
 
@@ -34,7 +43,7 @@ export class QuizRepository extends Repository<Quiz> {
         return response;
     }
 
-    removeEntity =async (id:number) => {
-            
+    removeEntity = async (id: number) => {
+
     }
 }

@@ -8,5 +8,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     database: 'quiz',
     autoLoadEntities: true,
     synchronize: true,
-    dropSchema: false
+    dropSchema: false,
+    logging: true,
 }

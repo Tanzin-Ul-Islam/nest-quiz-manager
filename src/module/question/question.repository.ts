@@ -25,7 +25,7 @@ export class QuestionRepository extends Repository<Question>{
     }
 
     async findOneEntity(id: number) {
-        const response = await Question.findOne({ where: { id: id }, relations: ['quiz'] });
+        const response = await Question.findOne({ where: { id: id }, relations: ['quiz', 'options'] });
         return response;
     }
 
